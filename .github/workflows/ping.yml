@@ -2,13 +2,17 @@ name: Keep Supabase Awake
 
 on:
   schedule:
-    # cron: "0 0 */5 * *" = مرة كل 5 أيام الساعة 00:00 UTC
-    - cron: "0 0 */5 * *"
-  workflow_dispatch: # عشان تقدر تشغله يدوي من GitHub Actions
+    - cron: "0 0 */5 * *"   # كل 5 أيام بالليل (UTC)
+  workflow_dispatch:         # تشغيل يدوي لو حابب
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase
-        run: curl -I https://cgddcslldiesvarclnkr.supabase.co/rest/v1/
+      - name: Insert ping record
+        run: |
+          curl -X POST "https://cgddcslldiesvarclnkr.supabase.co/rest/v1/pingss" \
+          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{"note": "Ping from GitHub Action run #${{ github.run_number }}"}'
