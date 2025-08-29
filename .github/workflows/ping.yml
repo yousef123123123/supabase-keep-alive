@@ -1,0 +1,14 @@
+name: Keep Supabase Awake
+
+on:
+  schedule:
+    # cron: "0 0 */5 * *" = مرة كل 5 أيام الساعة 00:00 UTC
+    - cron: "0 0 */5 * *"
+  workflow_dispatch: # عشان تقدر تشغله يدوي من GitHub Actions
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        run: curl -I https://cgddcslldiesvarclnkr.supabase.co/rest/v1/
